@@ -2,7 +2,7 @@ import Clock from "@/assets/icons/Clock";
 import Image from "next/image";
 import React from "react";
 
-const Card = ({ image, title, description, date }) => {
+const Card = ({ image, title, description, date = false }) => {
   return (
     <div
       className="bg-white rounded-[20px] w-full sm:w-[335px] lg:w-[395px] overflow-hidden"
@@ -10,8 +10,8 @@ const Card = ({ image, title, description, date }) => {
     >
       <Image
         src={image}
-        width={300}
-        height={300}
+        width={350}
+        height={350}
         className="aspect-square w-full"
         alt="event"
         style={{ objectFit: "contain" }}
@@ -22,9 +22,15 @@ const Card = ({ image, title, description, date }) => {
         <p className="text-black text-base">{description}</p>
       </div>
 
-      <div className="bg-[#0056A3] px-3.5 py-2 flex items-center gap-x-3 w-full">
+      <div
+        className={`${
+          date ? "bg-[#0056A3]" : "bg-[#01B313]"
+        } px-3.5 py-2 flex items-center gap-x-3 w-full`}
+      >
         <Clock className="fill-white stroke-none" />
-        <p className="text-white text-lg font-medium">{date}</p>
+        <p className="text-white text-lg font-medium">
+          {date ? date : "Selesai"}
+        </p>
       </div>
     </div>
   );

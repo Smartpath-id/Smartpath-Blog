@@ -24,7 +24,7 @@ const cards = [
     src: other_event_3.src,
     description:
       "Lorem ipsum dolor sit amet consectetur. Aliquam ornare euismod massa rhoncus volutpat a. Ut feugiat mattis faucibus semper.",
-    date: "10 November 2023",
+    date: false,
   },
 ];
 
