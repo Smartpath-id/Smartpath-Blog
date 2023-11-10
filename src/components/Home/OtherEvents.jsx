@@ -3,6 +3,7 @@ import other_event_1 from "@/assets/image/other_event_1.png";
 import other_event_2 from "@/assets/image/other_event_2.png";
 import other_event_3 from "@/assets/image/other_event_3.png";
 import Card from "../Card";
+import Link from "next/link";
 
 const cards = [
   {
@@ -37,15 +38,18 @@ const OtherEvents = () => {
             Event lainnya
           </h2>
           <div className="border-2 border-[#FFA700] basis-full md:basis-1/2 lg:basis-full h-1 sm:h-0 order-last md:order-2" />
-          <button className="text-white bg-[#FFA700] py-3 px-3.5 md:px-0 lg:px-2 basis-auto md:basis-1/3 lg:basis-2/6 xl:basis-1/4 rounded-[10px] md:order-3">
+          <Link
+            href={"/all-of-event"}
+            className="block text-center bg-[#FFA700] py-3 px-3.5 md:px-0 lg:px-2 basis-auto md:basis-1/3 lg:basis-2/6 xl:basis-1/4 rounded-[10px] md:order-3"
+          >
             <span className="font-semibold text-lg text-white">
               Lihat lebih banyak
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* Cards */}
-        <div className="flex justify-center gap-y-8 md:justify-between flex-wrap">
+        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 md:justify-between flex-wrap">
           {cards.map(({ src, title, description, date }, idx) => (
             <Card
               key={idx}
