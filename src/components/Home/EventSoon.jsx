@@ -4,7 +4,7 @@ import event_2 from "@/assets/image/event_2.png";
 import event_3 from "@/assets/image/event_3.png";
 import Card from "../Card";
 
-const cards = [
+export const cards = [
   {
     title: "Beasiswa Smartpath 2023",
     src: event_1.src,
@@ -45,7 +45,7 @@ const Hero = () => {
         </div>
 
         {/* Cards */}
-        <div className="flex justify-center gap-y-8 md:justify-between flex-wrap">
+        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 md:justify-between flex-wrap">
           {cards.map(({ src, title, description, date }, idx) => (
             <Card
               key={idx}
