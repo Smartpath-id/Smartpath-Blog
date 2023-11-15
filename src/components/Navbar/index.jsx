@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import logo_smartpath from "@/assets/logo/logo_smartpath.png";
 import { useState } from "react";
 import ChevronDown from "@/assets/icons/ChevronDown";
 import Button from "../Button";
@@ -30,6 +29,7 @@ const Navbars = () => {
                 height={150}
                 className="w-40 h-15 md:w-56 md:h-20 aspect-auto"
                 style={{ objectFit: "cover" }}
+                priority
               />
             </Link>
             {/* <p>LOGO</p> */}
