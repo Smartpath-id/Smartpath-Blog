@@ -1,13 +1,18 @@
 import Image from "next/image";
 import React from "react";
-import event from "@/assets/image/event_3_full.png";
-import Clock from "@/assets/icons/Clock";
+import Vector from "@/assets/icons/Vector.svg";
+import Location from "@/assets/icons/location.svg";
+import Clocks from "@/assets/icons/Clocks.svg";
+import moment from 'moment';
 
-const HeroEvent = () => {
+const HeroEvent = ({ data }) => {
+  const fileName =
+    (data.poster && data.poster.substring(data.poster.indexOf("images"))) || "";
+
   return (
-    <div className="flex gap-x-10 items-start lg:items-end w-full relative z-10 container lg:max-w-7xl mx-auto pt-10 px-4 sm:px-0 lg:px-0 lg:pt-52 md:justify-center xl:justify-normal flex-col-reverse lg:flex-row gap-y-10 lg:gap-y-0">
+    <div className="flex gap-x-10 items-start lg:items-end w-full relative z-10 container lg:max-w-7xl mx-auto pt-10 px-4 sm:px-16 lg:px-0 lg:pt-52 md:justify-center  flex-col-reverse lg:flex-row gap-y-10 lg:gap-y-0 2xl:pr-24">
       <Image
-        src={event.src}
+        src={`${process.env.NEXT_PUBLIC_URL_LOCAL}/${fileName}`}
         alt="event"
         width={500}
         height={500}
@@ -18,32 +23,47 @@ const HeroEvent = () => {
 
       <div className="space-y-9 mb-0 lg:mb-20">
         <div className="w-fit text-lg border border-[#0056A34D] rounded-[10px] text-center px-6 py-1.5 bg-[#EBF2F8]">
-          Beasiswa
+          {data.categories.name}
         </div>
 
         <div className="space-y-6">
-          <h2 className="font-semibold text-4xl">Beasiswa Smartpath</h2>
+          <h2 className="font-semibold text-4xl">{data.title}</h2>
 
           <div className="flex gap-x-4">
-            <Clock />
+            <Image
+              src={Clocks.src}
+              width={50}
+              height={50}
+              className="w-6 h-6 aspect-square"
+            />
             <p className="text-[#0056A3] font-medium text-lg">
-              10 November 2023
+              {moment(data.date_start).format('DD MMMM YYYY')}
             </p>
           </div>
 
           <div className="flex gap-x-4">
-            <Clock />
+            <Image
+              src={Vector.src}
+              width={50}
+              height={50}
+              className="w-6 h-6 aspect-square"
+            />
             <p className="text-[#0056A3] font-medium text-lg">
-              10 November 2023
+              {data.kuota}
             </p>
           </div>
 
-          <div className="flex gap-x-4">
-            <Clock />
+          {/* <div className="flex gap-x-4">
+            <Image
+              src={Location.src}
+              width={50}
+              height={50}
+              className="w-6 h-6 aspect-square"
+            />
             <p className="text-[#0056A3] font-medium text-lg">
-              10 November 2023
+              Online
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

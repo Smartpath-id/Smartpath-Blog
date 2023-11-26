@@ -1,38 +1,41 @@
 import React from "react";
-import other_event_1 from "@/assets/image/other_event_1.png";
-import other_event_2 from "@/assets/image/other_event_2.png";
-import other_event_3 from "@/assets/image/other_event_3.png";
 import Card from "../Card";
 import Link from "next/link";
 
-const cards = [
-  {
-    title: "Beasiswa Smartpath 2023",
-    src: other_event_1.src,
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam ornare euismod massa rhoncus volutpat a. Ut feugiat mattis faucibus semper.",
-    date: "10 November 2023",
-  },
-  {
-    title: "Beasiswa Smartpath 2023",
-    src: other_event_2.src,
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam ornare euismod massa rhoncus volutpat a. Ut feugiat mattis faucibus semper.",
-    date: "10 November 2023",
-  },
-  {
-    title: "Beasiswa Smartpath 2023",
-    src: other_event_3.src,
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam ornare euismod massa rhoncus volutpat a. Ut feugiat mattis faucibus semper.",
-    date: false,
-  },
-];
+const getAllEvents = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL_LOCAL}/event?page=1`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
 
-const OtherEvents = () => {
+  return await response.json();
+};
+
+// Fungsi untuk mendapatkan 3 data secara acak
+function getRandomData(arr, numItems) {
+  const shuffled = arr.sort(() => 0.5 - Math.random()); // Mengacak array
+  return shuffled.slice(0, numItems); // Mengambil numItems pertama setelah diacak
+}
+
+const OtherEvents = async () => {
+  const { data } = await getAllEvents();
+  const currentDate = new Date();
+
+  // const eventsEnd = data.eventServices.filter((event) => {
+  //   const startDate = new Date(event.date_start);
+  //   return startDate < currentDate;
+  // });
+
+  const evendEnds = getRandomData(data.eventServices, 3);
+
   return (
     <section className="md:py-10">
-      <div className="container mx-auto px-4 sm:px-0 space-y-10 sm:space-y-20">
+      <div className="container mx-auto px-4 sm:px-16 space-y-10 sm:space-y-20">
         <div className="flex flex-wrap md:flex-nowrap gap-y-4 justify-between items-center gap-x-2 sm:gap-x-4">
           <h2 className="text-2xl sm:text-3xl font-semibold basis-auto lg:basis-1/4 md:order-1">
             Event lainnya
@@ -49,16 +52,25 @@ const OtherEvents = () => {
         </div>
 
         {/* Cards */}
-        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 md:justify-between flex-wrap">
-          {cards.map(({ src, title, description, date }, idx) => (
-            <Card
-              key={idx}
-              image={src}
-              title={title}
-              description={description}
-              date={date}
-            />
-          ))}
+        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 lg:justify-between gap-x-8 flex-wrap">
+          {evendEnds.map(
+            ({ title, description, date_start, poster, slug }, idx) => (
+              <Link
+                key={idx}
+                href={{
+                  pathname: `/event/${slug}`,
+                }}
+                className="cursor-pointer"
+              >
+                <Card
+                  image={poster || ""}
+                  title={title}
+                  description={description}
+                  date_start={date_start}
+                />
+              </Link>
+            )
+          )}
         </div>
       </div>
     </section>

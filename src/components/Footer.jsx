@@ -83,7 +83,7 @@ const pembayaran = [
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-t-[#00000080] mt-32">
-      <div className="container mx-auto p-4 mt-2 sm:px-0">
+      <div className="container mx-auto py-4 mt-2 px-4 sm:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-10">
           <div className="col-span-1 md:col-span-3 lg:col-span-2 xl:col-span-2">
             <div className="space-y-1.5">

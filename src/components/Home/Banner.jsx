@@ -15,7 +15,7 @@ const Banner = () => {
       />
 
       <div className="container mx-auto">
-        <div className="max-w-4xl px-4 sm:px-8 relative z-20 ">
+        <div className="max-w-4xl px-4 sm:px-16 relative z-20 ">
           <div className="space-y-8">
             <h1 className="font-semibold text-4xl text-white md:leading-[54px]">
               Temukan dan ikuti Event menarik dari Smartpath

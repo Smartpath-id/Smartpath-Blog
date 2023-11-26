@@ -1,7 +1,7 @@
 import React from "react";
 import Dropdown from "../Button/Dropdown";
-import { cards } from "../Home/EventSoon";
 import Card from "../Card";
+import Link from "next/link";
 
 const categoryEvent = [
   {
@@ -27,14 +27,27 @@ const categoryEvent = [
   },
 ];
 
-const EventCards = () => {
-  const allCards = Array.from({ length: cards.length }, () =>
-    cards.flatMap((card) => ({ ...card }))
-  );
+const getAllEvents = async (query) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_LOCAL}/event?search=${query}&page=1`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
+
+const EventCards = async ({ query }) => {
+  const { data } = await getAllEvents(query);
 
   return (
     <section>
-      <div className="container px-4 sm:px-0 mx-auto">
+      <div className="container px-4 sm:px-16 mx-auto">
         <div className="w-full flex gap-x-4 gap-y-3 sm:gap-y-0 justify-start sm:justify-center md:justify-end items-center my-10 md:my-20 flex-wrap">
           <p className="text-lg">Sesuaikan berdasarkan :</p>
 
@@ -46,17 +59,37 @@ const EventCards = () => {
         </div>
 
         {/* Cards */}
-        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 md:justify-between flex-wrap">
-          {allCards.map((cards) =>
-            cards.map(({ src, title, description, date }, idx) => (
-              <Card
-                key={idx}
-                image={src}
-                title={title}
-                description={description}
-                date={date}
-              />
-            ))
+        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 lg:justify-between gap-x-8 flex-wrap">
+          {Object.keys(data).length !== 0 ? (
+            data.eventServices.map(
+              ({ title, description, date_start, poster, slug }, idx) => (
+                <Link
+                  key={idx}
+                  href={{
+                    pathname: `/event/${slug}`,
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Card
+                    key={idx}
+                    image={poster || ""}
+                    title={title}
+                    description={description}
+                    date_start={date_start}
+                  />
+                </Link>
+              )
+            )
+          ) : (
+            <div className="space-y-4 mx-auto">
+              <h3 className="text-center text-2xl text-slate-800 font-semibold">
+                No data found
+              </h3>
+
+              <p className="text-center text-lg text-slate-400 font-medium">
+                Man day data is empty or Try adjusting your filter
+              </p>
+            </div>
           )}
         </div>
       </div>

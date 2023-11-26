@@ -3,12 +3,12 @@ import Hero from "@/components/Home/EventSoon";
 import OtherEvents from "@/components/Home/OtherEvents";
 import Partners from "@/components/Home/Partners";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
-      <Banner />
+      {/* <Banner /> */}
       <Hero />
-      <Partners />
+      {/* <Partners /> */}
       <OtherEvents />
     </main>
   );
