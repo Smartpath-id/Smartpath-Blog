@@ -1,19 +1,21 @@
 import React from "react";
 import Card from "../Card";
 import Link from "next/link";
+import event from "@/assets/icons/event.svg";
+import Image from "next/image";
 
 const getAllEvents = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL_LOCAL}/event?page=1`,
-    {
-      cache: "no-store",
-    }
-  );
-  if (!response.ok) {
-    throw new Error(response.statusText);
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_LOCAL}/event?page=1`,
+      {
+        cache: "no-store",
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    return error;
   }
-
-  return await response.json();
 };
 
 // Fungsi untuk mendapatkan 3 data secara acak
@@ -26,12 +28,16 @@ const OtherEvents = async () => {
   const { data } = await getAllEvents();
   const currentDate = new Date();
 
-  // const eventsEnd = data.eventServices.filter((event) => {
-  //   const startDate = new Date(event.date_start);
-  //   return startDate < currentDate;
-  // });
+  const eventsEnd =
+    data.eventServices &&
+    data.eventServices.filter((event) => {
+      const startDate = new Date(event.date_start);
+      return startDate < currentDate;
+    });
 
-  const evendEnds = getRandomData(data.eventServices, 3);
+  const evendEnds = data.eventServices
+    ? getRandomData(data.eventServices, 3)
+    : null;
 
   return (
     <section className="md:py-10">
@@ -52,26 +58,39 @@ const OtherEvents = async () => {
         </div>
 
         {/* Cards */}
-        <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 lg:justify-between gap-x-8 flex-wrap">
-          {evendEnds.map(
-            ({ title, description, date_start, poster, slug }, idx) => (
-              <Link
-                key={idx}
-                href={{
-                  pathname: `/event/${slug}`,
-                }}
-                className="cursor-pointer"
-              >
-                <Card
-                  image={poster || ""}
-                  title={title}
-                  description={description}
-                  date_start={date_start}
-                />
-              </Link>
-            )
-          )}
-        </div>
+        {evendEnds ? (
+          <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 lg:justify-between gap-x-8 flex-wrap">
+            {evendEnds.map(
+              ({ title, description, date_start, poster, slug }, idx) => (
+                <Link
+                  key={idx}
+                  href={{
+                    pathname: `/event/${slug}`,
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Card
+                    image={poster || ""}
+                    title={title}
+                    description={description}
+                    date_start={date_start}
+                  />
+                </Link>
+              )
+            )}
+          </div>
+        ) : (
+          <div className="mx-auto">
+            <Image
+              src={event.src}
+              width={50}
+              height={50}
+              className="w-60 h-60 aspect-square mx-auto"
+            />
+
+            <h3 className="text-center">You have not comming event</h3>
+          </div>
+        )}
       </div>
     </section>
   );
