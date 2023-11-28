@@ -21,8 +21,8 @@ const Hero = async () => {
   const { data } = await getAllEvents();
   const currentDate = new Date();
 
-  const eventComming = data.eventServices
-    ? data.eventServices
+  const eventComming = data?.eventServices
+    ? data?.eventServices
         .filter((event) => {
           const startDate = new Date(event.date_start);
           return startDate >= currentDate;

@@ -1,49 +1,48 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Dropdown from "../Button/Dropdown";
 import Card from "../Card";
 import Link from "next/link";
+import Image from "next/image";
+import Search from "@/assets/icons/Search.svg";
 
-const categoryEvent = [
-  {
-    title: "Event Terbaru",
-  },
+const EventCards = ({ events, categories, query }) => {
+  const [category, setCategory] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [select, setSelect] = useState("All Category");
 
-  {
-    title: "Event selesai",
-  },
+  // fitur search dan filter
+  function searchAndFilter(keyword, category) {
+    let filteredEvents =
+      events && events?.eventServices ? [...events?.eventServices] : [];
 
-  {
-    title: "Beasiswa",
-  },
+    if (keyword) {
+      filteredEvents = filteredEvents.filter((event) =>
+        event.title.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
 
-  {
-    title: "Webinar",
-  },
-  {
-    title: "Essay & Olimpiade",
-  },
-  {
-    title: "Business case Competition",
-  },
-];
-
-const getAllEvents = async (query) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_LOCAL}/event?search=${query}&page=1`,
-      {
-        cache: "no-store",
+    if (category) {
+      if (category === "default") {
+        return filteredEvents;
+      } else {
+        filteredEvents = filteredEvents.filter(
+          (event) => event?.category_id === category
+        );
       }
-    );
+    }
 
-    return await response.json();
-  } catch (error) {
-    return error;
+    return filteredEvents;
   }
-};
 
-const EventCards = async ({ query }) => {
-  const { data } = await getAllEvents(query);
+  const results = searchAndFilter(query, category);
+
+  const onSelected = (data) => {
+    setCategory(data?.id);
+    setSelect(data?.name);
+    setIsOpen(false);
+  };
 
   return (
     <section>
@@ -52,16 +51,29 @@ const EventCards = async ({ query }) => {
           <p className="text-lg">Sesuaikan berdasarkan :</p>
 
           <Dropdown
-            title={"Beasiswa"}
-            values={categoryEvent}
+            title={"All Category"}
+            category={[
+              ...categories,
+              {
+                id: "default",
+                name: "All Category",
+                type: "default",
+                createdAt: "default",
+                updatedAt: "default",
+              },
+            ]}
+            values={events?.eventServices}
             size="w-[277px]"
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onClick={onSelected}
+            select={select}
           />
         </div>
-
         {/* Cards */}
         <div className="flex justify-center gap-y-10 lg:gap-y-12 xl:gap-y-16 lg:justify-between gap-x-8 flex-wrap">
-          {Object.keys(data).length !== 0 ? (
-            data.eventServices.map(
+          {results && results.length > 0 ? (
+            results?.map(
               ({ title, description, date_start, poster, slug }, idx) => (
                 <Link
                   key={idx}
@@ -81,14 +93,27 @@ const EventCards = async ({ query }) => {
               )
             )
           ) : (
-            <div className="space-y-4 mx-auto">
-              <h3 className="text-center text-2xl text-slate-800 font-semibold">
-                No data found
-              </h3>
+            <div className="w-full -mb-10 px-4 md:px-0">
+              <Image
+                width={250}
+                height={250}
+                src={Search.src}
+                className="mx-auto my-20 w-72 sm:w-80"
+                alt="not found"
+                style={{
+                  objectFit: "contain",
+                }}
+              />
 
-              <p className="text-center text-lg text-slate-400 font-medium">
-                Man day data is empty or Try adjusting your filter
-              </p>
+              <div className="space-y-4 mx-auto">
+                <h3 className="text-center text-2xl text-slate-800 font-semibold">
+                  No matching search results
+                </h3>
+
+                <p className="text-center text-lg text-slate-400 font-medium">
+                  Try again using more general search terms
+                </p>
+              </div>
             </div>
           )}
         </div>

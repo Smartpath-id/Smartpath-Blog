@@ -3,6 +3,13 @@ import Image from "next/image";
 import React from "react";
 import Clock from "@/assets/icons/Clock.svg";
 
+function persingkatTeks(teks, panjangMaksimal) {
+  if (teks.length > panjangMaksimal) {
+    return teks.substring(0, panjangMaksimal) + "...";
+  }
+  return teks;
+}
+
 const Card = ({ image, title, description, date_start }) => {
   const { date, check } = validateDate(date_start);
   const fileName = (image && image.substring(image.indexOf("images"))) || "";
@@ -18,13 +25,16 @@ const Card = ({ image, title, description, date_start }) => {
         width={350}
         height={350}
         className="aspect-square w-full"
-        alt="event"
-        style={{ objectFit: "contain" }}
+        alt={title}
+        style={{ objectFit: "cover" }}
+        priority
       />
 
       <div className="px-4 py-8 space-y-4 md:space-y-6">
         <h4 className="text-[#0056A3] font-semibold text-xl">{title}</h4>
-        <p className="text-black text-base">{description}</p>
+        <p className="text-black text-base">
+          {persingkatTeks(description, 100)}
+        </p>
       </div>
 
       <div
@@ -37,6 +47,7 @@ const Card = ({ image, title, description, date_start }) => {
           width={50}
           height={50}
           className="w-6 h-6 aspect-square"
+          alt="date"
         />
         <p className="text-white text-lg font-medium">
           {check ? "Selesai" : date}

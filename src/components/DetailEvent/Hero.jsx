@@ -3,7 +3,7 @@ import React from "react";
 import Vector from "@/assets/icons/Vector.svg";
 import Location from "@/assets/icons/location.svg";
 import Clocks from "@/assets/icons/Clocks.svg";
-import moment from 'moment';
+import moment from "moment";
 
 const HeroEvent = ({ data }) => {
   const fileName =
@@ -35,9 +35,10 @@ const HeroEvent = ({ data }) => {
               width={50}
               height={50}
               className="w-6 h-6 aspect-square"
+              alt="date"
             />
             <p className="text-[#0056A3] font-medium text-lg">
-              {moment(data.date_start).format('DD MMMM YYYY')}
+              {moment(data.date_start).format("DD MMMM YYYY")}
             </p>
           </div>
 
@@ -47,10 +48,9 @@ const HeroEvent = ({ data }) => {
               width={50}
               height={50}
               className="w-6 h-6 aspect-square"
+              alt="kouta"
             />
-            <p className="text-[#0056A3] font-medium text-lg">
-              {data.kuota}
-            </p>
+            <p className="text-[#0056A3] font-medium text-lg">{data.kuota}</p>
           </div>
 
           {/* <div className="flex gap-x-4">

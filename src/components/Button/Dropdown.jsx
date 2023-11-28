@@ -1,18 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, useRef } from "react";
 
-const Dropdown = ({ title, values, size = "w-auto" }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [select, setSelect] = useState(title);
+const Dropdown = ({
+  category,
+  size = "w-auto",
+  isOpen,
+  setIsOpen,
+  select,
+  onClick,
+}) => {
+  // check jika click keluar dari content dropdown
+  let dropdownContent = useRef(null);
+  useEffect(() => {
+    let handler = (e) => {
+      if (!dropdownContent.current.contains(e.target)) setIsOpen(false);
+    };
 
-  const onSelected = (e) => {
-    setSelect(e.target.name);
-    setIsOpen(false);
-  };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [dropdownContent]);
 
   return (
-    <div className={`relative group ${size}`}>
+    <div ref={dropdownContent} className={`relative group ${size}`}>
       <button
         onClick={() => setIsOpen((open) => !open)}
         id="dropdown-button"
@@ -37,18 +47,18 @@ const Dropdown = ({ title, values, size = "w-auto" }) => {
         id="dropdown-menu"
         className={`${
           isOpen ? "block" : "hidden"
-        } absolute right-0 mt-0.5 rounded-md shadow-lg bg-white border border-[#0056A3] p-1 space-y-1 ${size}`}
+        } absolute right-0 mt-0.5 rounded-md shadow-lg bg-white border border-[#0056A3] p-1 space-y-1 ${size} h-72 overflow-auto`}
       >
         {/* Dropdown content goes here */}
-        {values.map(({ title }, idx) => (
+        {category?.map((data, idx) => (
           <button
-            onClick={onSelected}
-            name={title}
+            onClick={() => onClick(data)}
+            name={data?.name}
             key={idx}
             type="button"
             className="px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md text-lg w-full text-left"
           >
-            {title}
+            {data?.name}
           </button>
         ))}
       </div>
