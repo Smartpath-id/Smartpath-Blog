@@ -19,8 +19,9 @@ const ContentEvent = ({data}) => {
           <div className="space-y-6">
             <h3 className="text-4xl">Deskripsi</h3>
             <p className="text-lg">
-              {data.description}
-            </p>
+            <div dangerouslySetInnerHTML={{
+                  __html: data.description
+                  }} />              </p>
           </div>
 
           <div className="space-y-6">
@@ -40,7 +41,9 @@ const ContentEvent = ({data}) => {
         </article>
 
         <div className="flex justify-between sm:justify-end gap-x-10 text-lg font-semibold mt-24 md:mt-28 -mb-12">
-          <Link href={data.link_guidebook}>
+          <Link 
+          target="_blank"
+          href={data.link_guidebook}>
           <button
             type="button"
             className="w-[230px] py-2.5 text-[#FFA700] border-[3px] border-[#FFA700] rounded-[10px]"
@@ -48,7 +51,9 @@ const ContentEvent = ({data}) => {
             Guide book
           </button>
           </Link>
-          <Link href={data.link_daftar}>
+          <Link 
+            target="_blank"
+            href={data.link_daftar}>
             <button
               type="button"
               className="w-[230px] py-2.5 text-white bg-[#FFA700] rounded-[10px]"

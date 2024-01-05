@@ -28,8 +28,11 @@ const HeroEvent = ({ data }) => {
 
         <div className="space-y-6">
           <h2 className="font-semibold text-4xl">{data.title}</h2>
-
-          <div className="flex gap-x-4">
+         
+         <div>
+         Batas Pendaftaran
+         <br/>
+         <div className="flex gap-x-4">
             <Image
               src={Clocks.src}
               width={50}
@@ -41,8 +44,11 @@ const HeroEvent = ({ data }) => {
               {moment(data.date_start).format("DD MMMM YYYY")}
             </p>
           </div>
+         </div>
 
-          <div className="flex gap-x-4">
+         <div>
+          Kuota
+         <div className="flex gap-x-4">
             <Image
               src={Vector.src}
               width={50}
@@ -50,8 +56,9 @@ const HeroEvent = ({ data }) => {
               className="w-6 h-6 aspect-square"
               alt="kouta"
             />
-            <p className="text-[#0056A3] font-medium text-lg">{data.kuota}</p>
+            <p className="text-[#0056A3] font-medium text-lg">{data.kuota === 0 ? "Ditutup jika kouta penuh" : data.kouta}</p>
           </div>
+         </div>
 
           {/* <div className="flex gap-x-4">
             <Image

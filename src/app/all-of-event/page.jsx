@@ -46,3 +46,4 @@ const page = async ({ searchParams }) => {
 };
 
 export default page;
+

@@ -32,9 +32,9 @@ const Card = ({ image, title, description, date_start }) => {
 
       <div className="px-4 py-8 space-y-4 md:space-y-6">
         <h4 className="text-[#0056A3] font-semibold text-xl">{title}</h4>
-        <p className="text-black text-base">
+        {/* <p className="text-black text-base">
           {persingkatTeks(description, 100)}
-        </p>
+        </p> */}
       </div>
 
       <div
